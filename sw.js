@@ -25,6 +25,36 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// Background push: the Worker sends an empty-payload push (no task text —
+// that would require payload encryption), so we show a generic reminder
+// and let tapping it open the app to see what's actually due.
+self.addEventListener("push", (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch (e) {}
+  const title = data.title || "Task due";
+  const body = data.body || "You have something due in Organiser.";
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body,
+      icon: "icons/icon-192.png",
+      badge: "icons/icon-192.png",
+      tag: "organiser-due",
+    })
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then((clients) => {
+      for (const client of clients) {
+        if ("focus" in client) return client.focus();
+      }
+      if (self.clients.openWindow) return self.clients.openWindow("./index.html");
+    })
+  );
+});
+
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
   event.respondWith(

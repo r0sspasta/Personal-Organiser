@@ -1,0 +1,19 @@
+# Optional: only needed if you deploy with the Wrangler CLI instead of the
+# Cloudflare dashboard (see cloudflare-worker/README.md for the no-CLI path).
+name = "organiser-push"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+[triggers]
+crons = ["*/10 * * * *"]
+
+[[kv_namespaces]]
+binding = "PUSH_KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+[vars]
+VAPID_PUBLIC_KEY = "BM-9SdWcnzlv-WkodxW52gJuzlqQGhe7mv5h32M36buC1OV_cdzPBmRZX7RU90xQm_kubP7PMBa2GRThDKdKP_M"
+VAPID_SUBJECT = "mailto:you@example.com"
+
+# VAPID_PRIVATE_JWK is a secret — never put it here. Set it with:
+#   wrangler secret put VAPID_PRIVATE_JWK

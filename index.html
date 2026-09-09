@@ -21,16 +21,6 @@
     --accent: #6366f1;
     --accent-dim: #4f46e5;
     --accent-soft: rgba(99, 102, 241, 0.16);
-    --work: #38bdf8;
-    --work-soft: rgba(56, 189, 248, 0.14);
-    --personal: #34d399;
-    --personal-soft: rgba(52, 211, 153, 0.14);
-    --home-cat: #fb923c;
-    --home-cat-soft: rgba(251, 146, 60, 0.14);
-    --other: #a78bfa;
-    --other-soft: rgba(167, 139, 250, 0.14);
-    --gaming: #f472b6;
-    --gaming-soft: rgba(244, 114, 182, 0.14);
     --danger: #f87171;
     --warn: #fbbf24;
     --warn-soft: rgba(251, 191, 36, 0.14);
@@ -59,10 +49,11 @@
     justify-content: center; cursor: pointer; font-size: 16px; flex-shrink: 0;
   }
   .icon-btn:active { transform: scale(0.94); }
+  .icon-btn.active { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
   .check:focus-visible, .icon-btn:focus-visible, .mini-btn:focus-visible, .cat-btn:focus-visible,
   .tab:focus-visible, .chip:focus-visible, .round-btn:focus-visible, .btn:focus-visible,
   .segmented button:focus-visible, .switch:focus-visible, .tile:focus-visible,
-  .home-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .home-link:focus-visible, .swatch:focus-visible, .day-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
   /* ================= Home / landing screen ================= */
   #homeScreen { min-height: 100vh; display: flex; flex-direction: column; }
@@ -90,33 +81,21 @@
     max-width: 420px; margin: 0 auto; width: 100%;
   }
   .tile {
-    aspect-ratio: 1; border-radius: 22px; border: 1px solid var(--border); background: var(--bg-elev);
+    aspect-ratio: 1; border-radius: 22px; border: 1px solid var(--c-border, var(--border)); background: var(--c-soft, var(--bg-elev));
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
     cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent;
     transition: transform .1s;
   }
   .tile:active { transform: scale(0.95); }
   .tile .tile-icon { font-size: 42px; line-height: 1; }
-  .tile .tile-label { font-size: 15px; font-weight: 800; }
-  .tile.wide {
-    grid-column: 1 / -1; aspect-ratio: auto; flex-direction: row; padding: 16px; gap: 14px;
-  }
+  .tile .tile-label { font-size: 15px; font-weight: 800; color: var(--c, var(--text)); }
+  .tile.wide { grid-column: 1 / -1; aspect-ratio: auto; flex-direction: row; padding: 16px; gap: 14px; }
   .tile.wide .tile-icon { font-size: 30px; }
   .tile-badge {
     position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.09);
     font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
     font-variant-numeric: tabular-nums;
   }
-  .tile.cat-work { background: var(--work-soft); border-color: rgba(56,189,248,0.32); }
-  .tile.cat-work .tile-icon, .tile.cat-work .tile-label { color: var(--work); }
-  .tile.cat-personal { background: var(--personal-soft); border-color: rgba(52,211,153,0.32); }
-  .tile.cat-personal .tile-icon, .tile.cat-personal .tile-label { color: var(--personal); }
-  .tile.cat-home { background: var(--home-cat-soft); border-color: rgba(251,146,60,0.32); }
-  .tile.cat-home .tile-icon, .tile.cat-home .tile-label { color: var(--home-cat); }
-  .tile.cat-other { background: var(--other-soft); border-color: rgba(167,139,250,0.32); }
-  .tile.cat-other .tile-icon, .tile.cat-other .tile-label { color: var(--other); }
-  .tile.cat-gaming { background: var(--gaming-soft); border-color: rgba(244,114,182,0.32); }
-  .tile.cat-gaming .tile-icon, .tile.cat-gaming .tile-label { color: var(--gaming); }
 
   .home-links { display: flex; justify-content: center; gap: 22px; margin-top: 26px; flex-wrap: wrap; }
   .home-link {
@@ -133,12 +112,8 @@
   .capture-cat-chip {
     display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 16px;
     padding: 8px 16px; border-radius: 999px; flex: 1; justify-content: center;
+    background: var(--c-soft); color: var(--c);
   }
-  .capture-cat-chip.cat-work { background: var(--work-soft); color: var(--work); }
-  .capture-cat-chip.cat-personal { background: var(--personal-soft); color: var(--personal); }
-  .capture-cat-chip.cat-home { background: var(--home-cat-soft); color: var(--home-cat); }
-  .capture-cat-chip.cat-other { background: var(--other-soft); color: var(--other); }
-  .capture-cat-chip.cat-gaming { background: var(--gaming-soft); color: var(--gaming); }
 
   .capture-input-row {
     display: flex; gap: 8px; align-items: center;
@@ -161,7 +136,7 @@
     display: flex; align-items: center; gap: 10px; background: var(--bg-elev); border: 1px solid var(--border);
     border-radius: 12px; padding: 10px 12px; margin-bottom: 7px;
   }
-  .added-row .ok { color: var(--personal); font-size: 15px; flex-shrink: 0; }
+  .added-row .ok { color: #34d399; font-size: 15px; flex-shrink: 0; }
   .added-row .txt { flex: 1; font-size: 14px; min-width: 0; word-break: break-word; }
   .added-row .meta { font-size: 11px; color: var(--text-faint); margin-top: 2px; }
   .added-row .undo {
@@ -191,6 +166,7 @@
   .btn.primary { background: var(--accent); color: white; }
   .btn.ghost { background: var(--bg-elev-2); color: var(--text-dim); border: 1px solid var(--border); }
   .btn.danger-outline { background: transparent; color: var(--danger); border: 1px solid rgba(248,113,113,0.4); }
+  .btn.sm { padding: 9px 0; font-size: 13px; }
 
   /* ================= Dashboard screen ================= */
   #dashboardScreen { padding-bottom: 40px; }
@@ -227,18 +203,24 @@
   .tab.active { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
   .tab .badge { background: rgba(255,255,255,0.08); border-radius: 999px; padding: 1px 6px; font-size: 11px; }
 
-  .filters { display: flex; gap: 6px; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .filter-row { display: flex; gap: 6px; align-items: center; margin-bottom: 10px; }
+  .filters { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; flex: 1; }
   .filters::-webkit-scrollbar { display: none; }
   .chip {
     flex-shrink: 0; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; cursor: pointer;
     border: 1px solid var(--border); color: var(--text-dim); background: transparent; white-space: nowrap;
   }
   .chip.active-all { background: rgba(255,255,255,0.08); color: var(--text); border-color: rgba(255,255,255,0.2); }
-  .chip.active-work { background: var(--work-soft); color: var(--work); border-color: var(--work); }
-  .chip.active-personal { background: var(--personal-soft); color: var(--personal); border-color: var(--personal); }
-  .chip.active-home { background: var(--home-cat-soft); color: var(--home-cat); border-color: var(--home-cat); }
-  .chip.active-other { background: var(--other-soft); color: var(--other); border-color: var(--other); }
-  .chip.active-gaming { background: var(--gaming-soft); color: var(--gaming); border-color: var(--gaming); }
+  .chip.cat-active { background: var(--c-soft); color: var(--c); border-color: var(--c); }
+
+  .search-row { margin-bottom: 10px; }
+  .search-input-wrap {
+    display: flex; align-items: center; gap: 8px; background: var(--bg-elev); border: 1px solid var(--border);
+    border-radius: 11px; padding: 9px 12px;
+  }
+  .search-input-wrap input { flex: 1; background: transparent; border: none; color: var(--text); font-size: 14px; outline: none; }
+  .search-input-wrap input::placeholder { color: var(--text-faint); }
+  .search-input-wrap .clear-search { background: none; border: none; color: var(--text-faint); cursor: pointer; font-size: 14px; padding: 2px; }
 
   main { padding-top: 4px; }
   .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 18px 2px 8px; }
@@ -246,10 +228,18 @@
   .empty { text-align: center; color: var(--text-faint); padding: 40px 20px; font-size: 14px; line-height: 1.6; }
   .empty .big { font-size: 32px; display: block; margin-bottom: 8px; }
 
+  /* ---- card + swipe ---- */
+  .card-swipe { position: relative; margin-bottom: 8px; border-radius: var(--radius); overflow: hidden; }
+  .swipe-bg {
+    position: absolute; inset: 0; display: flex; align-items: center; z-index: 0;
+    font-weight: 700; font-size: 13px; padding: 0 20px;
+  }
+  .swipe-bg.swipe-right { justify-content: flex-start; background: rgba(52,211,153,0.22); color: #34d399; }
+  .swipe-bg.swipe-left { justify-content: flex-end; background: rgba(248,113,113,0.22); color: #f87171; }
   .card {
     background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 12px 12px 11px; margin-bottom: 8px; display: flex; gap: 10px; align-items: flex-start;
-    position: relative; overflow: hidden;
+    padding: 12px 12px 11px; display: flex; gap: 10px; align-items: flex-start;
+    position: relative; z-index: 1; touch-action: pan-y; -webkit-tap-highlight-color: transparent;
   }
   .card.overdue { border-color: rgba(248, 113, 113, 0.4); }
   .card.stale::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--warn); }
@@ -260,16 +250,13 @@
   }
   .check:active { transform: scale(0.9); }
   .card.done .check { background: var(--accent); border-color: var(--accent); color: white; }
+  .card.selected .check { background: var(--accent); border-color: var(--accent); color: white; }
   .card-body { flex: 1; min-width: 0; }
   .card-text { font-size: 14.5px; line-height: 1.4; word-break: break-word; }
   .card.done .card-text { color: var(--text-faint); text-decoration: line-through; }
   .card-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; align-items: center; }
-  .pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
-  .pill.work { background: var(--work-soft); color: var(--work); }
-  .pill.personal { background: var(--personal-soft); color: var(--personal); }
-  .pill.home { background: var(--home-cat-soft); color: var(--home-cat); }
-  .pill.other { background: var(--other-soft); color: var(--other); }
-  .pill.gaming { background: var(--gaming-soft); color: var(--gaming); }
+  .pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; border: none; }
+  .pill.cat { background: var(--c-soft); color: var(--c); }
   .pill.due { background: rgba(255,255,255,0.07); color: var(--text-dim); }
   .pill.due.overdue-text { background: rgba(248, 113, 113, 0.15); color: var(--danger); }
   .pill.due.today-text { background: var(--accent-soft); color: #a5a8ff; }
@@ -277,7 +264,13 @@
   .pill.repeat { background: rgba(255,255,255,0.07); color: var(--text-dim); }
   .pill.stale { background: var(--warn-soft); color: var(--warn); }
   .pill.tag { background: rgba(255,255,255,0.06); color: var(--text-faint); }
+  .pill.subtasks { background: rgba(255,255,255,0.07); color: var(--text-dim); cursor: pointer; }
   .added-ts { font-size: 11px; color: var(--text-faint); margin-top: 5px; }
+
+  .subtask-list { margin-top: 9px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 6px; }
+  .subtask-row { display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; }
+  .subtask-row input { width: 15px; height: 15px; accent-color: var(--accent); flex-shrink: 0; }
+  .subtask-row span.done { color: var(--text-faint); text-decoration: line-through; }
 
   .card-actions { display: flex; gap: 4px; flex-shrink: 0; }
   .mini-btn {
@@ -293,6 +286,35 @@
     display: flex; align-items: center; justify-content: center;
   }
   .fab:active { transform: scale(0.93); }
+
+  .batch-bar {
+    position: fixed; left: 12px; right: 12px; bottom: calc(18px + env(safe-area-inset-bottom)); z-index: 45;
+    background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 10px 12px; display: flex; align-items: center; gap: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+  }
+  .batch-bar .count { font-size: 13px; font-weight: 700; flex: 1; }
+  .batch-bar button { flex-shrink: 0; }
+
+  /* ---- calendar ---- */
+  .cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .cal-header .cal-title { font-size: 15px; font-weight: 800; }
+  .cal-nav { display: flex; gap: 6px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+  .cal-dow { text-align: center; font-size: 10px; color: var(--text-faint); font-weight: 700; text-transform: uppercase; padding-bottom: 4px; }
+  .day-cell {
+    aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-elev);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    cursor: pointer; position: relative; font-size: 12px; color: var(--text-dim);
+  }
+  .day-cell.other-month { opacity: 0.35; }
+  .day-cell.today { border-color: var(--accent); }
+  .day-cell.selected { background: var(--accent-soft); border-color: var(--accent); }
+  .day-cell .dow-num { font-weight: 700; }
+  .day-dots { display: flex; gap: 2px; }
+  .day-dot { width: 5px; height: 5px; border-radius: 50%; }
+  .day-more { font-size: 8px; color: var(--text-faint); }
+  .cal-day-detail { margin-top: 16px; }
 
   /* ================= Modal / sheet (shared) ================= */
   .sheet-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 50; display: flex; align-items: flex-end; justify-content: center; }
@@ -317,6 +339,26 @@
   .sheet-actions { display: flex; gap: 8px; margin-top: 6px; }
   .close-x { position: absolute; right: 14px; top: 14px; }
 
+  .subtask-edit-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .subtask-edit-row input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--accent); flex-shrink: 0; }
+  .subtask-edit-row .st-text { flex: 1; font-size: 13.5px; }
+  .subtask-edit-row .st-text.done { color: var(--text-faint); text-decoration: line-through; }
+  .subtask-edit-row button { background: none; border: none; color: var(--text-faint); cursor: pointer; font-size: 13px; padding: 4px; }
+  .subtask-add-row { display: flex; gap: 6px; margin-top: 8px; }
+  .subtask-add-row input { flex: 1; }
+  .subtask-add-row button { flex-shrink: 0; width: 38px; border-radius: 9px; border: none; background: var(--accent); color: white; font-size: 15px; cursor: pointer; }
+
+  .cat-manage-row { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .cat-manage-row:last-child { border-bottom: none; }
+  .cat-manage-row .cat-preview { flex: 1; display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; }
+  .cat-manage-row .cat-dot { width: 22px; height: 22px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; background: var(--c-soft); }
+  .cat-manage-row .mini-btn { color: var(--text-dim); }
+  .swatch-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+  .swatch { width: 32px; height: 32px; border-radius: 9px; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; }
+  .swatch.on { border-color: var(--text); }
+  .emoji-grid { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .emoji-grid button { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--border); background: var(--bg-elev-2); font-size: 16px; cursor: pointer; }
+
   .settings-group { margin-bottom: 20px; }
   .settings-group h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 0 0 10px; }
   .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--border); }
@@ -328,7 +370,7 @@
   .switch .knob { width: 20px; height: 20px; border-radius: 50%; background: white; position: absolute; top: 2px; left: 2px; transition: left .15s; }
   .switch.on .knob { left: 22px; }
   .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-  .status-dot.ok { background: var(--personal); }
+  .status-dot.ok { background: #34d399; }
   .status-dot.pending { background: var(--warn); }
   .status-dot.err { background: var(--danger); }
   .status-dot.off { background: var(--text-faint); }
@@ -397,13 +439,24 @@
           <h1>Organiser</h1>
         </div>
         <div class="home-actions">
+          <button class="icon-btn" id="btnSearchToggle" title="Search" aria-label="Search">🔍</button>
+          <button class="icon-btn" id="btnSelectToggle" title="Select" aria-label="Select multiple">☑️</button>
           <button class="icon-btn" id="btnDashHome" title="Home" aria-label="Back to home">⌂</button>
           <button class="icon-btn" id="btnSettings" title="Settings" aria-label="Settings">⚙️</button>
         </div>
       </div>
       <div class="stats" id="statsRow"></div>
       <div class="tabs" id="tabsRow"></div>
-      <div class="filters" id="filtersRow"></div>
+      <div class="search-row hidden" id="searchRow">
+        <div class="search-input-wrap">
+          <span>🔍</span>
+          <input id="searchInput" type="text" placeholder="Search tasks, tags, categories…" autocomplete="off" />
+          <button class="clear-search hidden" id="btnClearSearch">✕</button>
+        </div>
+      </div>
+      <div class="filter-row">
+        <div class="filters" id="filtersRow"></div>
+      </div>
     </header>
 
     <main id="mainList"></main>
@@ -419,17 +472,41 @@
   "use strict";
 
   /* ---------------------------------------------------------------- */
-  /* Categories                                                         */
+  /* Categories (user-editable)                                        */
   /* ---------------------------------------------------------------- */
-  const CATEGORY_META = {
-    work:     { icon: "💼", label: "Work" },
-    personal: { icon: "👤", label: "Personal" },
-    home:     { icon: "🏠", label: "Home" },
-    other:    { icon: "🗂️", label: "Other" },
-    gaming:   { icon: "🎮", label: "Gaming" },
-  };
-  const CATEGORY_ORDER = ["work", "personal", "home", "other", "gaming"];
-  const WIDE_TILES = ["gaming"]; // categories rendered as a full-width tile on the home grid
+  const CATEGORIES_KEY = "organiser.categories.v1";
+  const MAX_CATEGORIES = 8;
+  const DEFAULT_CATEGORIES = [
+    { id: "work",     icon: "💼", label: "Work",     color: "#38bdf8" },
+    { id: "personal", icon: "👤", label: "Personal", color: "#34d399" },
+    { id: "home",     icon: "🏠", label: "Home",     color: "#fb923c" },
+    { id: "other",    icon: "🗂️", label: "Other",    color: "#a78bfa" },
+    { id: "gaming",   icon: "🎮", label: "Gaming",   color: "#f472b6" },
+  ];
+  const COLOR_SWATCHES = ["#38bdf8", "#34d399", "#fb923c", "#a78bfa", "#f472b6", "#facc15", "#f87171", "#4ade80", "#22d3ee", "#c084fc", "#fb7185", "#94a3b8"];
+  const EMOJI_SUGGESTIONS = ["💼","👤","🏠","🗂️","🎮","🎯","📚","💰","🏋️","✈️","🐾","🎨","🍳","🚗","❤️","⭐","🔧","📱","🎓","🧾","🛒","🎵","🌱","☕"];
+
+  function loadCategories() {
+    try {
+      const raw = JSON.parse(localStorage.getItem(CATEGORIES_KEY));
+      if (Array.isArray(raw) && raw.length) return raw;
+    } catch (e) {}
+    return DEFAULT_CATEGORIES.map(c => Object.assign({}, c));
+  }
+  function saveCategories() {
+    try { localStorage.setItem(CATEGORIES_KEY, JSON.stringify(state.categories)); } catch (e) {}
+  }
+  function catById(id) {
+    return state.categories.find(c => c.id === id) || { id: id || "none", icon: "❔", label: id || "Unlabeled", color: "#6b7186" };
+  }
+  function hexToRgb(hex) {
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex || "#6b7186");
+    return m ? { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) } : { r: 107, g: 113, b: 134 };
+  }
+  function catStyleAttr(cat) {
+    const { r, g, b } = hexToRgb(cat.color);
+    return `--c:${cat.color};--c-soft:rgba(${r},${g},${b},0.14);--c-border:rgba(${r},${g},${b},0.32)`;
+  }
 
   /* ---------------------------------------------------------------- */
   /* Storage                                                           */
@@ -437,6 +514,7 @@
   const TASKS_KEY = "organiser.tasks.v1";
   const SETTINGS_KEY = "organiser.settings.v1";
   const NOTIFIED_KEY = "organiser.notified.v1";
+  const DEVICE_ID_KEY = "organiser.deviceId.v1";
 
   function loadTasks() {
     try { return JSON.parse(localStorage.getItem(TASKS_KEY)) || []; }
@@ -446,6 +524,7 @@
     try { localStorage.setItem(TASKS_KEY, JSON.stringify(state.tasks)); }
     catch (e) { /* storage full/unavailable */ }
     scheduleSync();
+    schedulePushSync();
   }
   function loadSettings() {
     const defaults = {
@@ -454,6 +533,8 @@
       syncEnabled: false,
       notifyEnabled: false,
       staleDays: 5,
+      pushWorkerUrl: "",
+      pushEnabled: false,
     };
     try { return Object.assign(defaults, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}); }
     catch (e) { return defaults; }
@@ -462,17 +543,33 @@
     try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings)); }
     catch (e) {}
   }
+  function getDeviceId() {
+    try {
+      let id = localStorage.getItem(DEVICE_ID_KEY);
+      if (!id) { id = uid() + uid(); localStorage.setItem(DEVICE_ID_KEY, id); }
+      return id;
+    } catch (e) { return "device"; }
+  }
 
   const state = {
+    categories: loadCategories(),
     tasks: loadTasks(),
     settings: loadSettings(),
-    screen: "home",        // home | capture | dashboard
-    captureCategory: "work",
-    justAdded: [],          // ids added during the current capture visit, newest first
-    view: "today",          // today | upcoming | all | completed
-    filter: "all",          // all | work | personal | home | other
+    screen: "home",         // home | capture | dashboard
+    captureCategory: null,
+    justAdded: [],           // ids added during the current capture visit, newest first
+    view: "today",           // today | upcoming | all | completed | calendar
+    filter: "all",           // all | <categoryId>
     editingId: null,
+    searchOpen: false,
+    searchQuery: "",
+    selectMode: false,
+    selectedIds: [],
+    expandedCards: [],
+    calendarMonth: startOfDay(new Date()),
+    calendarSelectedDate: null,
   };
+  state.calendarMonth.setDate(1);
 
   /* ---------------------------------------------------------------- */
   /* Date helpers                                                       */
@@ -483,8 +580,10 @@
   function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
   function addMonths(d, n) { const x = new Date(d); x.setMonth(x.getMonth() + n); return x; }
   function daysBetween(a, b) { return Math.round((startOfDay(b) - startOfDay(a)) / 86400000); }
+  function sameDate(a, b) { return daysBetween(a, b) === 0; }
 
   const WEEKDAYS = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+  const WEEKDAY_SHORT = ["Su","Mo","Tu","We","Th","Fr","Sa"];
 
   function formatDueLabel(iso) {
     if (!iso) return null;
@@ -556,7 +655,13 @@
 
     let baseDate = null;
 
-    if (/\btoday\b/i.test(text)) {
+    const inHoursMatch = text.match(/\bin\s+(\d+)\s*(hour|hours|hr|hrs)\b/i);
+    if (inHoursMatch) {
+      const d = new Date();
+      d.setHours(d.getHours() + parseInt(inHoursMatch[1], 10), d.getMinutes(), 0, 0);
+      dueAt = d.toISOString();
+      text = text.replace(inHoursMatch[0], "");
+    } else if (/\btoday\b/i.test(text)) {
       baseDate = new Date();
       text = text.replace(/\btoday\b/gi, "");
     } else if (/\btonight\b/i.test(text)) {
@@ -595,15 +700,17 @@
     }
     text = text.replace(/\bnext\b/gi, "");
 
-    if (baseDate) {
-      const d = startOfDay(baseDate);
-      if (hour !== null) { d.setHours(hour, minute, 0, 0); }
-      dueAt = d.toISOString();
-    } else if (hour !== null) {
-      const d = new Date();
-      d.setHours(hour, minute, 0, 0);
-      if (d < new Date()) d.setDate(d.getDate() + 1);
-      dueAt = d.toISOString();
+    if (!dueAt) {
+      if (baseDate) {
+        const d = startOfDay(baseDate);
+        if (hour !== null) { d.setHours(hour, minute, 0, 0); }
+        dueAt = d.toISOString();
+      } else if (hour !== null) {
+        const d = new Date();
+        d.setHours(hour, minute, 0, 0);
+        if (d < new Date()) d.setDate(d.getDate() + 1);
+        dueAt = d.toISOString();
+      }
     }
 
     text = text.replace(/\s{2,}/g, " ").trim();
@@ -624,6 +731,7 @@
       dueAt: dueAt || null,
       tags: tags || [],
       repeat: repeat || null,
+      subtasks: [],
       addedAt: nowISO(),
       lastTouchedAt: nowISO(),
       completedAt: null,
@@ -661,6 +769,7 @@
   function deleteTask(id) {
     state.tasks = state.tasks.filter(x => x.id !== id);
     state.justAdded = state.justAdded.filter(x => x !== id);
+    state.selectedIds = state.selectedIds.filter(x => x !== id);
     saveTasks();
     renderCurrentScreen();
   }
@@ -686,6 +795,49 @@
     renderCurrentScreen();
   }
 
+  function addSubtask(taskId, text) {
+    const t = state.tasks.find(x => x.id === taskId);
+    if (!t || !text.trim()) return;
+    if (!t.subtasks) t.subtasks = [];
+    t.subtasks.push({ id: uid(), text: text.trim(), done: false });
+    touch(t);
+    saveTasks();
+    renderCurrentScreen();
+  }
+  function toggleSubtask(taskId, subId) {
+    const t = state.tasks.find(x => x.id === taskId);
+    if (!t) return;
+    const s = (t.subtasks || []).find(x => x.id === subId);
+    if (!s) return;
+    s.done = !s.done;
+    touch(t);
+    saveTasks();
+    renderCurrentScreen();
+  }
+  function removeSubtask(taskId, subId) {
+    const t = state.tasks.find(x => x.id === taskId);
+    if (!t) return;
+    t.subtasks = (t.subtasks || []).filter(x => x.id !== subId);
+    touch(t);
+    saveTasks();
+    renderCurrentScreen();
+  }
+
+  function batchComplete(ids) {
+    const now = nowISO();
+    ids.forEach(id => {
+      const t = state.tasks.find(x => x.id === id);
+      if (t && !t.completedAt) { t.completedAt = now; touch(t); }
+    });
+    saveTasks();
+    exitSelectMode();
+  }
+  function batchDelete(ids) {
+    state.tasks = state.tasks.filter(x => !ids.includes(x.id));
+    saveTasks();
+    exitSelectMode();
+  }
+
   /* ---------------------------------------------------------------- */
   /* Derived                                                            */
   /* ---------------------------------------------------------------- */
@@ -703,7 +855,15 @@
     return daysBetween(startOfDay(new Date()), new Date(t.dueAt)) === 0;
   }
   function passesFilter(t) { return state.filter === "all" || t.category === state.filter; }
-  function openCountFor(cat) { return state.tasks.filter(t => !t.completedAt && t.category === cat).length; }
+  function passesSearch(t) {
+    if (!state.searchQuery) return true;
+    const q = state.searchQuery.toLowerCase();
+    const cat = catById(t.category);
+    return t.text.toLowerCase().includes(q) ||
+      (t.tags || []).some(tag => tag.toLowerCase().includes(q)) ||
+      cat.label.toLowerCase().includes(q);
+  }
+  function openCountFor(catId) { return state.tasks.filter(t => !t.completedAt && t.category === catId).length; }
   function totalOpenCount() { return state.tasks.filter(t => !t.completedAt).length; }
 
   function computeStats() {
@@ -765,15 +925,14 @@
   const homeOpenCount = document.getElementById("homeOpenCount");
 
   function renderHome() {
-    tileGrid.innerHTML = CATEGORY_ORDER.map(cat => {
-      const meta = CATEGORY_META[cat];
-      const count = openCountFor(cat);
-      const wide = WIDE_TILES.includes(cat) ? " wide" : "";
+    tileGrid.innerHTML = state.categories.map((cat, idx) => {
+      const count = openCountFor(cat.id);
+      const wide = idx >= 4 ? " wide" : "";
       return `
-        <div class="tile cat-${cat}${wide}" data-cat="${cat}" role="button" tabindex="0" aria-label="Add ${meta.label} item">
+        <div class="tile${wide}" data-cat="${cat.id}" role="button" tabindex="0" aria-label="Add ${escapeHtml(cat.label)} item" style="${catStyleAttr(cat)}">
           ${count ? `<span class="tile-badge">${count}</span>` : ""}
-          <span class="tile-icon">${meta.icon}</span>
-          <span class="tile-label">${meta.label}</span>
+          <span class="tile-icon">${cat.icon}</span>
+          <span class="tile-label">${escapeHtml(cat.label)}</span>
         </div>`;
     }).join("");
     tileGrid.querySelectorAll(".tile").forEach(el => {
@@ -797,9 +956,9 @@
   const justAddedWrap = document.getElementById("justAddedWrap");
 
   function renderCapture() {
-    const meta = CATEGORY_META[state.captureCategory];
-    captureCatChip.className = "capture-cat-chip cat-" + state.captureCategory;
-    captureCatChip.textContent = meta.icon + " " + meta.label;
+    const cat = catById(state.captureCategory);
+    captureCatChip.setAttribute("style", catStyleAttr(cat));
+    captureCatChip.textContent = cat.icon + " " + cat.label;
     captureInput.value = "";
     updateCaptureHint();
     renderJustAdded();
@@ -896,20 +1055,24 @@
   const tabsRow = document.getElementById("tabsRow");
   const filtersRow = document.getElementById("filtersRow");
   const mainList = document.getElementById("mainList");
+  const searchRow = document.getElementById("searchRow");
+  const searchInput = document.getElementById("searchInput");
+  const btnClearSearch = document.getElementById("btnClearSearch");
 
   const TABS = [
     { id: "today", label: "Today" },
     { id: "upcoming", label: "Upcoming" },
     { id: "all", label: "All" },
+    { id: "calendar", label: "Calendar" },
     { id: "completed", label: "Done" },
   ];
 
   function tabCount(id) {
-    const open = state.tasks.filter(t => !t.completedAt && passesFilter(t));
+    const open = state.tasks.filter(t => !t.completedAt && passesFilter(t) && passesSearch(t));
     if (id === "today") return open.filter(t => isOverdue(t) || isDueToday(t)).length;
     if (id === "upcoming") return open.filter(t => t.dueAt && !isOverdue(t) && !isDueToday(t)).length;
     if (id === "all") return open.length;
-    if (id === "completed") return state.tasks.filter(t => t.completedAt && passesFilter(t)).length;
+    if (id === "completed") return state.tasks.filter(t => t.completedAt && passesFilter(t) && passesSearch(t)).length;
     return 0;
   }
 
@@ -934,22 +1097,50 @@
   }
 
   function renderFilters() {
-    const opts = [["all", "All"]].concat(CATEGORY_ORDER.map(c => [c, CATEGORY_META[c].icon + " " + CATEGORY_META[c].label]));
-    filtersRow.innerHTML = opts.map(([id, label]) =>
-      `<div class="chip ${state.filter === id ? "active-" + id : ""}" data-filter="${id}" role="button" tabindex="0">${label}</div>`
+    let html = `<div class="chip ${state.filter === "all" ? "active-all" : ""}" data-filter="all">All</div>`;
+    html += state.categories.map(cat =>
+      `<div class="chip ${state.filter === cat.id ? "cat-active" : ""}" data-filter="${cat.id}" style="${state.filter === cat.id ? catStyleAttr(cat) : ""}">${cat.icon} ${escapeHtml(cat.label)}</div>`
     ).join("");
+    filtersRow.innerHTML = html;
     filtersRow.querySelectorAll(".chip").forEach(el => {
       el.addEventListener("click", () => { state.filter = el.dataset.filter; renderDashboard(); });
     });
+  }
+
+  document.getElementById("btnSearchToggle").addEventListener("click", () => {
+    state.searchOpen = !state.searchOpen;
+    document.getElementById("btnSearchToggle").classList.toggle("active", state.searchOpen);
+    searchRow.classList.toggle("hidden", !state.searchOpen);
+    if (state.searchOpen) setTimeout(() => searchInput.focus(), 30);
+    else { state.searchQuery = ""; searchInput.value = ""; renderList(); }
+  });
+  searchInput.addEventListener("input", () => {
+    state.searchQuery = searchInput.value.trim();
+    btnClearSearch.classList.toggle("hidden", !state.searchQuery);
+    renderList();
+  });
+  btnClearSearch.addEventListener("click", () => { searchInput.value = ""; state.searchQuery = ""; btnClearSearch.classList.add("hidden"); searchInput.focus(); renderList(); });
+
+  document.getElementById("btnSelectToggle").addEventListener("click", () => {
+    if (state.selectMode) exitSelectMode();
+    else { state.selectMode = true; state.selectedIds = []; document.getElementById("btnSelectToggle").classList.add("active"); renderList(); }
+  });
+  function exitSelectMode() {
+    state.selectMode = false;
+    state.selectedIds = [];
+    document.getElementById("btnSelectToggle").classList.remove("active");
+    renderDashboard();
   }
 
   function cardHtml(t) {
     const overdue = isOverdue(t);
     const dueToday = isDueToday(t);
     const stale = isStale(t);
-    const meta = CATEGORY_META[t.category] || CATEGORY_META.other;
+    const cat = catById(t.category);
+    const expanded = state.expandedCards.includes(t.id);
+    const selected = state.selectedIds.includes(t.id);
     const pills = [];
-    pills.push(`<span class="pill ${t.category}">${meta.icon} ${meta.label}</span>`);
+    pills.push(`<span class="pill cat" style="${catStyleAttr(cat)}">${cat.icon} ${escapeHtml(cat.label)}</span>`);
     if (t.dueAt) {
       const cls = overdue ? "overdue-text" : dueToday ? "today-text" : "";
       pills.push(`<span class="pill due ${cls}">📅 ${formatDueLabel(t.dueAt)}</span>`);
@@ -957,20 +1148,38 @@
     if (t.priority === "high") pills.push(`<span class="pill priority-high">🔥 High</span>`);
     if (t.repeat) pills.push(`<span class="pill repeat">🔁 ${t.repeat}</span>`);
     if (stale && !t.completedAt) pills.push(`<span class="pill stale">⏳ Stuck ${daysBetween(new Date(t.lastTouchedAt), new Date())}d</span>`);
-    (t.tags || []).forEach(tag => pills.push(`<span class="pill tag">#${tag}</span>`));
+    if (t.subtasks && t.subtasks.length) {
+      const done = t.subtasks.filter(s => s.done).length;
+      pills.push(`<button class="pill subtasks" data-action="toggle-subtasks">☑ ${done}/${t.subtasks.length}</button>`);
+    }
+    (t.tags || []).forEach(tag => pills.push(`<span class="pill tag">#${escapeHtml(tag)}</span>`));
+
+    const subtaskHtml = expanded && t.subtasks && t.subtasks.length ? `
+      <div class="subtask-list">
+        ${t.subtasks.map(s => `
+          <label class="subtask-row" data-subtask-row="${s.id}">
+            <input type="checkbox" data-subtask="${s.id}" ${s.done ? "checked" : ""} />
+            <span class="${s.done ? "done" : ""}">${escapeHtml(s.text)}</span>
+          </label>`).join("")}
+      </div>` : "";
 
     return `
-      <div class="card ${t.completedAt ? "done" : ""} ${overdue ? "overdue" : ""} ${stale && !t.completedAt ? "stale" : ""}" data-id="${t.id}">
-        <button class="check" data-action="complete" aria-label="Complete">${t.completedAt ? "✓" : ""}</button>
-        <div class="card-body">
-          <div class="card-text">${escapeHtml(t.text)}</div>
-          <div class="card-meta">${pills.join("")}</div>
-          <div class="added-ts">${formatAddedTs(t.addedAt)}${t.completedAt ? " · Completed " + formatAddedTs(t.completedAt).replace("Added", "") : ""}</div>
-        </div>
-        <div class="card-actions">
-          ${!t.completedAt ? `<button class="mini-btn" data-action="snooze" title="Snooze 1 day">💤</button>` : ""}
-          <button class="mini-btn" data-action="edit" title="Edit">✏️</button>
-          <button class="mini-btn" data-action="delete" title="Delete">🗑️</button>
+      <div class="card-swipe" data-id="${t.id}">
+        <div class="swipe-bg swipe-right"><span>✓ Done</span></div>
+        <div class="swipe-bg swipe-left"><span>🗑 Delete</span></div>
+        <div class="card ${t.completedAt ? "done" : ""} ${overdue ? "overdue" : ""} ${stale && !t.completedAt ? "stale" : ""} ${selected ? "selected" : ""}" data-id="${t.id}">
+          <button class="check" data-action="complete" aria-label="Complete">${(t.completedAt || selected) ? "✓" : ""}</button>
+          <div class="card-body">
+            <div class="card-text">${escapeHtml(t.text)}</div>
+            <div class="card-meta">${pills.join("")}</div>
+            <div class="added-ts">${formatAddedTs(t.addedAt)}${t.completedAt ? " · Completed " + formatAddedTs(t.completedAt).replace("Added", "") : ""}</div>
+            ${subtaskHtml}
+          </div>
+          <div class="card-actions">
+            ${!t.completedAt ? `<button class="mini-btn" data-action="snooze" title="Snooze 1 day">💤</button>` : ""}
+            <button class="mini-btn" data-action="edit" title="Edit">✏️</button>
+            <button class="mini-btn" data-action="delete" title="Delete">🗑️</button>
+          </div>
         </div>
       </div>`;
   }
@@ -979,8 +1188,98 @@
     return `<div class="empty"><span class="big">${icon}</span><div><b>${title}</b></div><div>${sub || ""}</div></div>`;
   }
 
+  function wireCardActions(container) {
+    container.querySelectorAll(".card-swipe").forEach(wrapper => {
+      const id = wrapper.dataset.id;
+      const card = wrapper.querySelector(".card");
+
+      card.querySelector('[data-action="complete"]').addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (state.selectMode) {
+          toggleSelected(id);
+        } else {
+          completeTask(id);
+        }
+      });
+      const snoozeBtn = card.querySelector('[data-action="snooze"]');
+      if (snoozeBtn) snoozeBtn.addEventListener("click", (e) => { e.stopPropagation(); snoozeTask(id, 1); });
+      card.querySelector('[data-action="edit"]').addEventListener("click", (e) => { e.stopPropagation(); openEditSheet(id); });
+      card.querySelector('[data-action="delete"]').addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (confirm("Delete this task?")) deleteTask(id);
+      });
+      const subtaskToggle = card.querySelector('[data-action="toggle-subtasks"]');
+      if (subtaskToggle) subtaskToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const idx = state.expandedCards.indexOf(id);
+        if (idx === -1) state.expandedCards.push(id); else state.expandedCards.splice(idx, 1);
+        renderDashboard();
+      });
+      card.querySelectorAll("[data-subtask]").forEach(cb => {
+        cb.addEventListener("click", (e) => { e.stopPropagation(); toggleSubtask(id, cb.dataset.subtask); });
+      });
+
+      if (state.selectMode) {
+        card.addEventListener("click", (e) => {
+          if (e.target.closest("button, input")) return;
+          toggleSelected(id);
+        });
+      } else {
+        wireSwipe(wrapper, card, id);
+      }
+    });
+  }
+
+  function toggleSelected(id) {
+    const idx = state.selectedIds.indexOf(id);
+    if (idx === -1) state.selectedIds.push(id); else state.selectedIds.splice(idx, 1);
+    renderDashboard();
+  }
+
+  function wireSwipe(wrapper, card, id) {
+    const THRESHOLD = 88;
+    let startX = 0, startY = 0, dx = 0, dragging = false, decided = null;
+
+    card.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("button, input, a")) return;
+      startX = e.clientX; startY = e.clientY; dx = 0; dragging = true; decided = null;
+      try { card.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    card.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const dxRaw = e.clientX - startX;
+      const dyRaw = e.clientY - startY;
+      if (decided === null) {
+        if (Math.abs(dxRaw) > 8 || Math.abs(dyRaw) > 8) decided = Math.abs(dxRaw) > Math.abs(dyRaw) ? "h" : "v";
+      }
+      if (decided !== "h") return;
+      dx = dxRaw;
+      card.style.transform = `translateX(${dx}px)`;
+    });
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      if (decided === "h") {
+        card.style.transition = "transform .18s ease";
+        if (dx > THRESHOLD) {
+          card.style.transform = `translateX(28px)`;
+          setTimeout(() => completeTask(id), 130);
+        } else if (dx < -THRESHOLD) {
+          card.style.transform = "translateX(0)";
+          if (confirm("Delete this task?")) deleteTask(id);
+        } else {
+          card.style.transform = "translateX(0)";
+        }
+        setTimeout(() => { card.style.transition = ""; }, 220);
+      }
+      decided = null;
+    }
+    card.addEventListener("pointerup", endDrag);
+    card.addEventListener("pointercancel", endDrag);
+  }
+
   function renderList() {
-    const openAll = state.tasks.filter(t => !t.completedAt && passesFilter(t));
+    const openAll = state.tasks.filter(t => !t.completedAt && passesFilter(t) && passesSearch(t));
     let html = "";
 
     if (state.view === "today") {
@@ -1009,25 +1308,110 @@
         html = `<div class="section-label">All open · newest added first</div>` + sorted.map(cardHtml).join("");
       }
     } else if (state.view === "completed") {
-      const done = state.tasks.filter(t => t.completedAt && passesFilter(t)).sort((a,b) => new Date(b.completedAt) - new Date(a.completedAt));
+      const done = state.tasks.filter(t => t.completedAt && passesFilter(t) && passesSearch(t)).sort((a,b) => new Date(b.completedAt) - new Date(a.completedAt));
       if (!done.length) {
         html = emptyHtml("🏁", "Nothing completed yet", "Finished tasks show up here.");
       } else {
         html = `<div class="section-label">Completed · most recent first</div>` + done.map(cardHtml).join("");
       }
+    } else if (state.view === "calendar") {
+      renderCalendarView();
+      return;
     }
     mainList.innerHTML = html;
+    wireCardActions(mainList);
+    renderBatchBar();
+  }
 
-    mainList.querySelectorAll(".card").forEach(card => {
-      const id = card.dataset.id;
-      card.querySelector('[data-action="complete"]').addEventListener("click", (e) => { e.stopPropagation(); completeTask(id); });
-      const snoozeBtn = card.querySelector('[data-action="snooze"]');
-      if (snoozeBtn) snoozeBtn.addEventListener("click", (e) => { e.stopPropagation(); snoozeTask(id, 1); });
-      card.querySelector('[data-action="edit"]').addEventListener("click", (e) => { e.stopPropagation(); openEditSheet(id); });
-      card.querySelector('[data-action="delete"]').addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (confirm("Delete this task?")) deleteTask(id);
-      });
+  /* ---- calendar view ---- */
+  function renderCalendarView() {
+    const month = state.calendarMonth;
+    const year = month.getFullYear(), mo = month.getMonth();
+    const firstDow = new Date(year, mo, 1).getDay();
+    const daysInMonth = new Date(year, mo + 1, 0).getDate();
+    const daysInPrevMonth = new Date(year, mo, 0).getDate();
+    const todayD = startOfDay(new Date());
+
+    const relevant = state.tasks.filter(t => t.dueAt && !t.completedAt && passesFilter(t) && passesSearch(t));
+    function tasksOn(d) { return relevant.filter(t => sameDate(new Date(t.dueAt), d)); }
+
+    const cells = [];
+    for (let i = firstDow - 1; i >= 0; i--) cells.push({ date: new Date(year, mo, -i), otherMonth: true });
+    for (let d = 1; d <= daysInMonth; d++) cells.push({ date: new Date(year, mo, d), otherMonth: false });
+    while (cells.length % 7 !== 0) {
+      const last = cells[cells.length - 1].date;
+      cells.push({ date: addDays(last, 1), otherMonth: true });
+    }
+
+    const monthLabel = month.toLocaleDateString([], { month: "long", year: "numeric" });
+    let html = `
+      <div class="cal-header">
+        <div class="cal-title">${monthLabel}</div>
+        <div class="cal-nav">
+          <button class="icon-btn" id="calPrev" aria-label="Previous month">‹</button>
+          <button class="icon-btn" id="calToday" aria-label="Jump to today" title="Today">•</button>
+          <button class="icon-btn" id="calNext" aria-label="Next month">›</button>
+        </div>
+      </div>
+      <div class="cal-grid">
+        ${WEEKDAY_SHORT.map(d => `<div class="cal-dow">${d}</div>`).join("")}
+        ${cells.map(c => {
+          const dayTasks = tasksOn(c.date);
+          const dots = dayTasks.slice(0, 4).map(t => `<span class="day-dot" style="background:${catById(t.category).color}"></span>`).join("");
+          const isToday = sameDate(c.date, todayD);
+          const isSelected = state.calendarSelectedDate && sameDate(c.date, new Date(state.calendarSelectedDate));
+          return `<div class="day-cell ${c.otherMonth ? "other-month" : ""} ${isToday ? "today" : ""} ${isSelected ? "selected" : ""}" data-date="${c.date.toISOString()}" role="button" tabindex="0">
+            <span class="dow-num">${c.date.getDate()}</span>
+            <span class="day-dots">${dots}</span>
+          </div>`;
+        }).join("")}
+      </div>
+      <div class="cal-day-detail" id="calDayDetail"></div>`;
+
+    mainList.innerHTML = html;
+
+    document.getElementById("calPrev").addEventListener("click", () => { state.calendarMonth = addMonths(state.calendarMonth, -1); renderDashboard(); });
+    document.getElementById("calNext").addEventListener("click", () => { state.calendarMonth = addMonths(state.calendarMonth, 1); renderDashboard(); });
+    document.getElementById("calToday").addEventListener("click", () => {
+      state.calendarMonth = startOfDay(new Date()); state.calendarMonth.setDate(1);
+      state.calendarSelectedDate = startOfDay(new Date()).toISOString();
+      renderDashboard();
+    });
+    mainList.querySelectorAll(".day-cell").forEach(el => {
+      el.addEventListener("click", () => { state.calendarSelectedDate = el.dataset.date; renderDashboard(); });
+      el.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); state.calendarSelectedDate = el.dataset.date; renderDashboard(); } });
+    });
+
+    const detailEl = document.getElementById("calDayDetail");
+    if (state.calendarSelectedDate) {
+      const d = new Date(state.calendarSelectedDate);
+      const dayTasks = tasksOn(d).sort((a,b) => new Date(a.dueAt) - new Date(b.dueAt));
+      const label = d.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" });
+      detailEl.innerHTML = `<div class="section-label">${label}</div>` +
+        (dayTasks.length ? dayTasks.map(cardHtml).join("") : emptyHtml("📭", "Nothing due", "No tasks due this day."));
+      wireCardActions(detailEl);
+    } else {
+      detailEl.innerHTML = "";
+    }
+  }
+
+  /* ---- batch action bar ---- */
+  function renderBatchBar() {
+    let bar = document.getElementById("batchBar");
+    if (bar) bar.remove();
+    if (!state.selectMode || !state.selectedIds.length) return;
+    bar = document.createElement("div");
+    bar.className = "batch-bar";
+    bar.id = "batchBar";
+    bar.innerHTML = `
+      <span class="count">${state.selectedIds.length} selected</span>
+      <button class="btn sm ghost" id="batchCompleteBtn" style="width:auto;padding:9px 14px;">✓ Complete</button>
+      <button class="btn sm danger-outline" id="batchDeleteBtn" style="width:auto;padding:9px 14px;">🗑️ Delete</button>
+    `;
+    document.body.appendChild(bar);
+    document.getElementById("batchCompleteBtn").addEventListener("click", () => batchComplete(state.selectedIds.slice()));
+    document.getElementById("batchDeleteBtn").addEventListener("click", () => {
+      if (confirm(`Delete ${state.selectedIds.length} task(s)?`)) batchDelete(state.selectedIds.slice());
     });
   }
 
@@ -1054,6 +1438,23 @@
     return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
+  function renderEditSubtasks(t) {
+    const list = document.getElementById("editSubtaskList");
+    if (!list) return;
+    list.innerHTML = (t.subtasks || []).map(s => `
+      <div class="subtask-edit-row" data-sub="${s.id}">
+        <input type="checkbox" ${s.done ? "checked" : ""} data-sub-check="${s.id}" />
+        <span class="st-text ${s.done ? "done" : ""}">${escapeHtml(s.text)}</span>
+        <button data-sub-remove="${s.id}" title="Remove">✕</button>
+      </div>`).join("");
+    list.querySelectorAll("[data-sub-check]").forEach(cb => {
+      cb.addEventListener("click", () => { toggleSubtask(t.id, cb.dataset.subCheck); renderEditSubtasks(state.tasks.find(x => x.id === t.id)); });
+    });
+    list.querySelectorAll("[data-sub-remove]").forEach(btn => {
+      btn.addEventListener("click", () => { removeSubtask(t.id, btn.dataset.subRemove); renderEditSubtasks(state.tasks.find(x => x.id === t.id)); });
+    });
+  }
+
   function openEditSheet(id) {
     const t = state.tasks.find(x => x.id === id);
     if (!t) return;
@@ -1070,7 +1471,7 @@
           <div class="sheet-row">
             <label>Category</label>
             <div class="segmented" id="editCategory">
-              ${CATEGORY_ORDER.map(c => `<button data-v="${c}" class="${t.category === c ? "on" : ""}">${CATEGORY_META[c].icon} ${CATEGORY_META[c].label}</button>`).join("")}
+              ${state.categories.map(c => `<button data-v="${c.id}" class="${t.category === c.id ? "on" : ""}">${c.icon} ${escapeHtml(c.label)}</button>`).join("")}
             </div>
           </div>
           <div class="sheet-row">
@@ -1094,12 +1495,29 @@
               <option value="monthly" ${t.repeat === "monthly" ? "selected" : ""}>Monthly</option>
             </select>
           </div>
+          <div class="sheet-row">
+            <label>Steps</label>
+            <div id="editSubtaskList"></div>
+            <div class="subtask-add-row">
+              <input type="text" id="editSubtaskInput" placeholder="Add a step…" />
+              <button id="editSubtaskAdd" aria-label="Add step">+</button>
+            </div>
+          </div>
           <div class="sheet-actions">
             <button class="btn danger-outline" id="editDelete">Delete</button>
             <button class="btn primary" id="editSave">Save</button>
           </div>
         </div>
       </div>`;
+
+    renderEditSubtasks(t);
+    document.getElementById("editSubtaskAdd").addEventListener("click", () => {
+      const input = document.getElementById("editSubtaskInput");
+      if (input.value.trim()) { addSubtask(t.id, input.value); input.value = ""; renderEditSubtasks(state.tasks.find(x => x.id === t.id)); }
+    });
+    document.getElementById("editSubtaskInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") { e.preventDefault(); document.getElementById("editSubtaskAdd").click(); }
+    });
 
     const backdrop = document.getElementById("editBackdrop");
     let catSel = t.category, prioSel = t.priority;
@@ -1136,6 +1554,129 @@
   function closeSheet() { modalRoot.innerHTML = ""; state.editingId = null; }
 
   /* ---------------------------------------------------------------- */
+  /* Category management sheet                                         */
+  /* ---------------------------------------------------------------- */
+  function openCategoriesSheet() {
+    modalRoot.innerHTML = `
+      <div class="sheet-backdrop" id="catBackdrop">
+        <div class="sheet">
+          <button class="icon-btn close-x" id="catClose">✕</button>
+          <h2>Categories</h2>
+          <div id="catList"></div>
+          <div class="sheet-actions">
+            <button class="btn ghost" id="catAddBtn">+ Add category</button>
+          </div>
+        </div>
+      </div>`;
+    renderCatList();
+    document.getElementById("catClose").addEventListener("click", () => { closeSheet(); openSettingsSheet(); });
+    document.getElementById("catBackdrop").addEventListener("click", (e) => { if (e.target === e.currentTarget) { closeSheet(); openSettingsSheet(); } });
+    document.getElementById("catAddBtn").addEventListener("click", () => openCategoryEditor(null));
+  }
+
+  function renderCatList() {
+    const list = document.getElementById("catList");
+    list.innerHTML = state.categories.map((c, i) => `
+      <div class="cat-manage-row">
+        <div class="cat-preview">
+          <span class="cat-dot" style="${catStyleAttr(c)}">${c.icon}</span>
+          <span>${escapeHtml(c.label)}</span>
+        </div>
+        <button class="mini-btn" data-up="${c.id}" title="Move up" ${i === 0 ? "disabled style='opacity:.3'" : ""}>▲</button>
+        <button class="mini-btn" data-down="${c.id}" title="Move down" ${i === state.categories.length - 1 ? "disabled style='opacity:.3'" : ""}>▼</button>
+        <button class="mini-btn" data-edit-cat="${c.id}" title="Edit">✏️</button>
+        <button class="mini-btn" data-del-cat="${c.id}" title="Delete" ${state.categories.length <= 1 ? "disabled style='opacity:.3'" : ""}>🗑️</button>
+      </div>`).join("");
+    list.querySelectorAll("[data-up]").forEach(b => b.addEventListener("click", () => moveCategory(b.dataset.up, -1)));
+    list.querySelectorAll("[data-down]").forEach(b => b.addEventListener("click", () => moveCategory(b.dataset.down, 1)));
+    list.querySelectorAll("[data-edit-cat]").forEach(b => b.addEventListener("click", () => openCategoryEditor(b.dataset.editCat)));
+    list.querySelectorAll("[data-del-cat]").forEach(b => b.addEventListener("click", () => deleteCategory(b.dataset.delCat)));
+  }
+
+  function moveCategory(id, dir) {
+    const i = state.categories.findIndex(c => c.id === id);
+    const j = i + dir;
+    if (i < 0 || j < 0 || j >= state.categories.length) return;
+    const arr = state.categories;
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+    saveCategories();
+    renderCatList();
+  }
+
+  function deleteCategory(id) {
+    if (state.categories.length <= 1) return;
+    const affected = state.tasks.filter(t => t.category === id).length;
+    const msg = affected
+      ? `${affected} task(s) use this category — they'll show as "Unlabeled" instead. Delete anyway?`
+      : "Delete this category?";
+    if (!confirm(msg)) return;
+    state.categories = state.categories.filter(c => c.id !== id);
+    saveCategories();
+    renderCatList();
+    renderCurrentScreen();
+  }
+
+  function openCategoryEditor(id) {
+    const isNew = !id;
+    const existing = isNew ? null : catById(id);
+    let label = existing ? existing.label : "";
+    let icon = existing ? existing.icon : EMOJI_SUGGESTIONS[state.categories.length % EMOJI_SUGGESTIONS.length];
+    let color = existing ? existing.color : COLOR_SWATCHES[state.categories.length % COLOR_SWATCHES.length];
+
+    modalRoot.innerHTML = `
+      <div class="sheet-backdrop" id="ceBackdrop">
+        <div class="sheet">
+          <button class="icon-btn close-x" id="ceClose">✕</button>
+          <h2>${isNew ? "New category" : "Edit category"}</h2>
+          <div class="sheet-row">
+            <label>Name</label>
+            <input type="text" id="ceLabel" value="${escapeHtml(label)}" placeholder="e.g. Travel" maxlength="20" />
+          </div>
+          <div class="sheet-row">
+            <label>Icon</label>
+            <input type="text" id="ceIcon" value="${icon}" maxlength="4" style="width:64px;text-align:center;font-size:20px;" />
+            <div class="emoji-grid" id="ceEmojiGrid"></div>
+          </div>
+          <div class="sheet-row">
+            <label>Color</label>
+            <div class="swatch-grid" id="ceSwatchGrid"></div>
+          </div>
+          <div class="sheet-actions">
+            <button class="btn primary" id="ceSave">${isNew ? "Add category" : "Save"}</button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById("ceEmojiGrid").innerHTML = EMOJI_SUGGESTIONS.map(e => `<button data-emoji="${e}">${e}</button>`).join("");
+    document.getElementById("ceEmojiGrid").querySelectorAll("button").forEach(b => {
+      b.addEventListener("click", () => { document.getElementById("ceIcon").value = b.dataset.emoji; icon = b.dataset.emoji; });
+    });
+    const swatchGrid = document.getElementById("ceSwatchGrid");
+    function renderSwatches() {
+      swatchGrid.innerHTML = COLOR_SWATCHES.map(hex => `<button class="swatch ${hex === color ? "on" : ""}" data-hex="${hex}" style="background:${hex}"></button>`).join("");
+      swatchGrid.querySelectorAll(".swatch").forEach(b => b.addEventListener("click", () => { color = b.dataset.hex; renderSwatches(); }));
+    }
+    renderSwatches();
+
+    document.getElementById("ceClose").addEventListener("click", () => openCategoriesSheet());
+    document.getElementById("ceBackdrop").addEventListener("click", (e) => { if (e.target === e.currentTarget) openCategoriesSheet(); });
+    document.getElementById("ceSave").addEventListener("click", () => {
+      label = document.getElementById("ceLabel").value.trim();
+      icon = document.getElementById("ceIcon").value.trim() || icon;
+      if (!label) { showToast("Give the category a name"); return; }
+      if (isNew) {
+        if (state.categories.length >= MAX_CATEGORIES) { showToast(`Max ${MAX_CATEGORIES} categories`); return; }
+        state.categories.push({ id: uid(), icon, label, color });
+      } else {
+        Object.assign(existing, { icon, label, color });
+      }
+      saveCategories();
+      openCategoriesSheet();
+      renderCurrentScreen();
+    });
+  }
+
+  /* ---------------------------------------------------------------- */
   /* Settings sheet                                                     */
   /* ---------------------------------------------------------------- */
   function syncStatusDot() {
@@ -1144,6 +1685,12 @@
     if (syncState.status === "pending") return `<span class="status-dot pending"></span>Syncing…`;
     if (syncState.status === "err") return `<span class="status-dot err"></span>Failed`;
     return `<span class="status-dot off"></span>Not yet synced`;
+  }
+  function pushStatusDot() {
+    if (!state.settings.pushEnabled) return `<span class="status-dot off"></span>Off`;
+    if (pushState.status === "ok") return `<span class="status-dot ok"></span>Subscribed`;
+    if (pushState.status === "err") return `<span class="status-dot err"></span>Failed`;
+    return `<span class="status-dot pending"></span>Pending`;
   }
 
   function openSettingsSheet() {
@@ -1154,6 +1701,17 @@
           <h2>Settings</h2>
 
           <div class="settings-group">
+            <h3>Categories</h3>
+            <div class="settings-row">
+              <div>
+                <div class="label">${state.categories.length} categories</div>
+                <div class="sub">Rename, recolor, reorder, add, or remove — up to ${MAX_CATEGORIES}</div>
+              </div>
+              <button class="btn ghost sm" id="btnManageCats" style="width:auto;padding:8px 14px;">Manage</button>
+            </div>
+          </div>
+
+          <div class="settings-group">
             <h3>Notifications</h3>
             <div class="settings-row">
               <div>
@@ -1162,6 +1720,18 @@
               </div>
               <div class="switch ${state.settings.notifyEnabled ? "on" : ""}" id="notifySwitch" role="switch" tabindex="0" aria-checked="${state.settings.notifyEnabled}"><div class="knob"></div></div>
             </div>
+            <div class="settings-row">
+              <div>
+                <div class="label">Background reminders (push)</div>
+                <div class="sub">${pushStatusDot()} — fires even with the app closed. Needs a Push Worker URL below.</div>
+              </div>
+              <div class="switch ${state.settings.pushEnabled ? "on" : ""}" id="pushSwitch" role="switch" tabindex="0" aria-checked="${state.settings.pushEnabled}"><div class="knob"></div></div>
+            </div>
+            <div class="sheet-row" style="margin-top:10px;">
+              <label>Push Worker URL</label>
+              <input type="text" id="pushUrlInput" placeholder="https://organiser-push.you.workers.dev" value="${escapeHtml(state.settings.pushWorkerUrl || "")}" />
+            </div>
+            <div class="sub" style="margin-top:2px;">Reminders arrive as a generic "task due" notification (no title text) — tap it to open the app. See README for the one-time Cloudflare Worker setup.</div>
           </div>
 
           <div class="settings-group">
@@ -1202,6 +1772,7 @@
     const backdrop = document.getElementById("setBackdrop");
     document.getElementById("setClose").addEventListener("click", closeSheet);
     backdrop.addEventListener("click", (e) => { if (e.target === backdrop) closeSheet(); });
+    document.getElementById("btnManageCats").addEventListener("click", openCategoriesSheet);
 
     document.getElementById("notifySwitch").addEventListener("click", async () => {
       if (!state.settings.notifyEnabled) {
@@ -1210,6 +1781,18 @@
         if (perm !== "granted") showToast("Notifications blocked in browser settings");
       } else {
         state.settings.notifyEnabled = false;
+      }
+      saveSettings();
+      openSettingsSheet();
+    });
+
+    document.getElementById("pushSwitch").addEventListener("click", async () => {
+      if (!state.settings.pushEnabled) {
+        state.settings.pushWorkerUrl = document.getElementById("pushUrlInput").value.trim();
+        if (!state.settings.pushWorkerUrl) { showToast("Add your Push Worker URL first"); return; }
+        await enablePush();
+      } else {
+        await disablePush();
       }
       saveSettings();
       openSettingsSheet();
@@ -1239,7 +1822,7 @@
   /* Export / Import                                                    */
   /* ---------------------------------------------------------------- */
   function exportJson() {
-    const data = { tasks: state.tasks, settings: { staleDays: state.settings.staleDays }, exportedAt: nowISO() };
+    const data = { tasks: state.tasks, categories: state.categories, settings: { staleDays: state.settings.staleDays }, exportedAt: nowISO() };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -1262,6 +1845,7 @@
         if (!Array.isArray(data.tasks)) throw new Error("bad file");
         if (confirm(`Import ${data.tasks.length} tasks? This replaces everything currently stored.`)) {
           state.tasks = data.tasks;
+          if (Array.isArray(data.categories) && data.categories.length) { state.categories = data.categories; saveCategories(); }
           saveTasks();
           closeSheet();
           renderCurrentScreen();
@@ -1275,7 +1859,7 @@
   }
 
   /* ---------------------------------------------------------------- */
-  /* Notifications                                                       */
+  /* Notifications (foreground)                                          */
   /* ---------------------------------------------------------------- */
   async function requestNotifyPermission() {
     if (!("Notification" in window)) return "unsupported";
@@ -1300,7 +1884,7 @@
       const due = new Date(t.dueAt);
       if (due <= now) {
         try {
-          new Notification("Due: " + t.text, { body: CATEGORY_META[t.category].label + " task", icon: "icons/icon-192.png" });
+          new Notification("Due: " + t.text, { body: catById(t.category).label + " task", icon: "icons/icon-192.png" });
         } catch (e) {}
         notified.add(t.id);
         saveNotified(notified);
@@ -1308,6 +1892,84 @@
     });
   }
   setInterval(checkDueNotifications, 60000);
+
+  /* ---------------------------------------------------------------- */
+  /* Background push (real notifications when the app is closed)       */
+  /* ---------------------------------------------------------------- */
+  const VAPID_PUBLIC_KEY = "BM-9SdWcnzlv-WkodxW52gJuzlqQGhe7mv5h32M36buC1OV_cdzPBmRZX7RU90xQm_kubP7PMBa2GRThDKdKP_M";
+  const pushState = { status: "off" };
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = "=".repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const raw = atob(base64);
+    const arr = new Uint8Array(raw.length);
+    for (let i = 0; i < raw.length; i++) arr[i] = raw.charCodeAt(i);
+    return arr;
+  }
+
+  async function enablePush() {
+    if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+      showToast("Push isn't supported in this browser");
+      return;
+    }
+    try {
+      const perm = await requestNotifyPermission();
+      if (perm !== "granted") { showToast("Notifications blocked in browser settings"); return; }
+      const reg = await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+      if (!sub) {
+        sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY) });
+      }
+      const res = await fetch(state.settings.pushWorkerUrl.replace(/\/$/, "") + "/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ deviceId: getDeviceId(), subscription: sub.toJSON ? sub.toJSON() : sub }),
+      });
+      if (!res.ok) throw new Error("subscribe failed");
+      state.settings.pushEnabled = true;
+      pushState.status = "ok";
+      showToast("Background reminders on ✓");
+      syncPushTasks();
+    } catch (e) {
+      pushState.status = "err";
+      state.settings.pushEnabled = false;
+      showToast("Couldn't enable push — check the Worker URL");
+    }
+  }
+
+  async function disablePush() {
+    try {
+      if ("serviceWorker" in navigator) {
+        const reg = await navigator.serviceWorker.ready;
+        const sub = await reg.pushManager.getSubscription();
+        if (sub) await sub.unsubscribe();
+      }
+      if (state.settings.pushWorkerUrl) {
+        fetch(state.settings.pushWorkerUrl.replace(/\/$/, "") + "/unsubscribe", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ deviceId: getDeviceId() }),
+        }).catch(() => {});
+      }
+    } catch (e) {}
+    state.settings.pushEnabled = false;
+    pushState.status = "off";
+  }
+
+  let pushSyncTimer = null;
+  function schedulePushSync() {
+    if (!state.settings.pushEnabled || !state.settings.pushWorkerUrl) return;
+    if (pushSyncTimer) clearTimeout(pushSyncTimer);
+    pushSyncTimer = setTimeout(syncPushTasks, 4000);
+  }
+  function syncPushTasks() {
+    if (!state.settings.pushEnabled || !state.settings.pushWorkerUrl) return;
+    const minimal = state.tasks.filter(t => !t.completedAt && t.dueAt).map(t => ({ id: t.id, text: t.text, category: t.category, dueAt: t.dueAt }));
+    fetch(state.settings.pushWorkerUrl.replace(/\/$/, "") + "/sync", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deviceId: getDeviceId(), tasks: minimal }),
+    }).catch(() => {});
+  }
 
   /* ---------------------------------------------------------------- */
   /* Google Sheets one-way sync                                        */
@@ -1360,6 +2022,7 @@
   /* ---------------------------------------------------------------- */
   /* Boot                                                                */
   /* ---------------------------------------------------------------- */
+  state.captureCategory = state.categories[0] ? state.categories[0].id : null;
   show();
   if (state.settings.notifyEnabled && "Notification" in window && Notification.permission === "granted") {
     checkDueNotifications();

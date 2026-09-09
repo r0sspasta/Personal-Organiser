@@ -10,14 +10,22 @@ due.
 
 ## Landing screen
 
-Opening the app shows exactly one thing: four big buttons — **💼 Work**,
-**👤 Personal**, **🏠 Home**, **🗂️ Other** — each with a live count of what's
-open in it. Tap one and you're straight into a focused add screen for that
-category: nothing else to look at, nothing else to decide.
+Opening the app shows exactly one thing: a grid of big category buttons —
+**💼 Work**, **👤 Personal**, **🏠 Home**, **🗂️ Other**, **🎮 Gaming** by
+default — each with a live count of what's open in it. Tap one and you're
+straight into a focused add screen for that category: nothing else to look
+at, nothing else to decide.
 
 Everything else — the dashboard, filters, settings — lives one tap away
 (⌂ back, or the **📋 Dashboard** link), never in the way of adding something
 fast.
+
+### Custom categories
+
+The five above are just the starting set — **⚙️ Settings → Categories →
+Manage** lets you rename, recolor, reorder, add (up to 8), or delete any of
+them. Deleting one doesn't delete its tasks — they just show as
+"Unlabeled" until you re-tag them.
 
 ## Quick add
 
@@ -51,26 +59,45 @@ fast.
 - **Done** — completed items, most recently finished first.
 - A **stats strip** up top: added today, added this week, completed this
   week, and how many are overdue.
-- Filter chips (**All / Work / Personal / Home / Other**) narrow any of the
-  views above.
+- **Calendar** — a month grid; each day shows a colored dot per due task
+  (colored by category), tap a day to see that day's tasks below the grid.
+- Filter chips (one per category, plus **All**) narrow any of the views
+  above, including Calendar.
+- **🔍 Search** narrows further by task text, tag, or category name, on top
+  of whatever view/filter is active.
 - Items untouched for 5+ days (configurable) get a **"Stuck"** flag, so
   things don't quietly rot in the list.
+
+## Fast interactions
+
+- **Swipe a card** right to complete, left to delete (with a confirm) —
+  quicker than tapping the small icons. The tiny ✓/🗑️ buttons still work too.
+- **☑️ Select mode** — tap the checklist icon in the dashboard header to
+  multi-select cards (tap anywhere on a card instead of just the check), then
+  **Complete** or **Delete** several at once from the bar at the bottom.
+- **Sub-checklists** — break a task into steps from its ✏️ edit sheet. A
+  card with steps shows a `☑ 2/5` pill; tap it to expand and check steps off
+  right there, no need to open the edit sheet.
 
 ## Other features
 
 - **Snooze** — bump anything a day with one tap, right from the list.
 - **Recurring tasks** — mark daily/weekly/monthly; completing one
   automatically creates the next occurrence.
-- **Edit anything** — text, category, priority, due date/time, and repeat,
-  from the ✏️ button on any card.
-- **Notifications** — optional browser notifications when something becomes
-  due, while the app is open (see limitations below).
+- **Edit anything** — text, category, priority, due date/time, repeat, and
+  steps, from the ✏️ button on any card.
+- **Notifications** — two tiers, both in Settings:
+  - *Due-item reminders*: browser notifications while the app is open.
+  - *Background reminders (push)*: fire even with the app fully closed.
+    Needs a one-time Cloudflare Worker setup — see
+    [`cloudflare-worker/README.md`](cloudflare-worker/README.md).
 - **Installable & offline** — served over HTTPS it's a full PWA: "Add to
   Home Screen" gives a real app icon, full-screen launch, and offline support
   via a service worker.
-- **Backup** — *Export JSON* downloads everything; *Import JSON* restores it
-  (replacing what's currently stored). Or set up Google Sheets sync below for
-  an always-up-to-date off-device copy.
+- **Backup** — *Export JSON* downloads everything (including your
+  categories); *Import JSON* restores it (replacing what's currently
+  stored). Or set up Google Sheets sync below for an always-up-to-date
+  off-device copy.
 
 ## Data & privacy
 
@@ -122,10 +149,11 @@ gives a real app icon, full-screen launch, and offline support.
 
 ## Known limitations
 
-- **Notifications only fire while the app is open** — this is a static page
-  with no backend, so there's no server to push a notification when your
-  phone's browser is closed. If you need real background reminders, that's
-  the next thing to build (would need a small push service).
+- **Background push notifications are generic** — once the Cloudflare
+  Worker (below) is set up, reminders do fire with the app fully closed,
+  but the notification just says "Task due" rather than naming the task —
+  showing the real text needs payload encryption, deliberately left out of
+  v1 for reliability. Tap the notification to see what's actually due.
 - **Voice input quality** depends entirely on the browser's built-in speech
   recognition — accuracy varies by browser and accent, and it needs an
   internet connection on most browsers (the recognition itself is often
