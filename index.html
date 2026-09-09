@@ -29,6 +29,8 @@
     --home-cat-soft: rgba(251, 146, 60, 0.14);
     --other: #a78bfa;
     --other-soft: rgba(167, 139, 250, 0.14);
+    --gaming: #f472b6;
+    --gaming-soft: rgba(244, 114, 182, 0.14);
     --danger: #f87171;
     --warn: #fbbf24;
     --warn-soft: rgba(251, 191, 36, 0.14);
@@ -96,6 +98,10 @@
   .tile:active { transform: scale(0.95); }
   .tile .tile-icon { font-size: 42px; line-height: 1; }
   .tile .tile-label { font-size: 15px; font-weight: 800; }
+  .tile.wide {
+    grid-column: 1 / -1; aspect-ratio: auto; flex-direction: row; padding: 16px; gap: 14px;
+  }
+  .tile.wide .tile-icon { font-size: 30px; }
   .tile-badge {
     position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.09);
     font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
@@ -109,6 +115,8 @@
   .tile.cat-home .tile-icon, .tile.cat-home .tile-label { color: var(--home-cat); }
   .tile.cat-other { background: var(--other-soft); border-color: rgba(167,139,250,0.32); }
   .tile.cat-other .tile-icon, .tile.cat-other .tile-label { color: var(--other); }
+  .tile.cat-gaming { background: var(--gaming-soft); border-color: rgba(244,114,182,0.32); }
+  .tile.cat-gaming .tile-icon, .tile.cat-gaming .tile-label { color: var(--gaming); }
 
   .home-links { display: flex; justify-content: center; gap: 22px; margin-top: 26px; flex-wrap: wrap; }
   .home-link {
@@ -130,6 +138,7 @@
   .capture-cat-chip.cat-personal { background: var(--personal-soft); color: var(--personal); }
   .capture-cat-chip.cat-home { background: var(--home-cat-soft); color: var(--home-cat); }
   .capture-cat-chip.cat-other { background: var(--other-soft); color: var(--other); }
+  .capture-cat-chip.cat-gaming { background: var(--gaming-soft); color: var(--gaming); }
 
   .capture-input-row {
     display: flex; gap: 8px; align-items: center;
@@ -229,6 +238,7 @@
   .chip.active-personal { background: var(--personal-soft); color: var(--personal); border-color: var(--personal); }
   .chip.active-home { background: var(--home-cat-soft); color: var(--home-cat); border-color: var(--home-cat); }
   .chip.active-other { background: var(--other-soft); color: var(--other); border-color: var(--other); }
+  .chip.active-gaming { background: var(--gaming-soft); color: var(--gaming); border-color: var(--gaming); }
 
   main { padding-top: 4px; }
   .section-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin: 18px 2px 8px; }
@@ -259,6 +269,7 @@
   .pill.personal { background: var(--personal-soft); color: var(--personal); }
   .pill.home { background: var(--home-cat-soft); color: var(--home-cat); }
   .pill.other { background: var(--other-soft); color: var(--other); }
+  .pill.gaming { background: var(--gaming-soft); color: var(--gaming); }
   .pill.due { background: rgba(255,255,255,0.07); color: var(--text-dim); }
   .pill.due.overdue-text { background: rgba(248, 113, 113, 0.15); color: var(--danger); }
   .pill.due.today-text { background: var(--accent-soft); color: #a5a8ff; }
@@ -415,8 +426,10 @@
     personal: { icon: "👤", label: "Personal" },
     home:     { icon: "🏠", label: "Home" },
     other:    { icon: "🗂️", label: "Other" },
+    gaming:   { icon: "🎮", label: "Gaming" },
   };
-  const CATEGORY_ORDER = ["work", "personal", "home", "other"];
+  const CATEGORY_ORDER = ["work", "personal", "home", "other", "gaming"];
+  const WIDE_TILES = ["gaming"]; // categories rendered as a full-width tile on the home grid
 
   /* ---------------------------------------------------------------- */
   /* Storage                                                           */
@@ -755,8 +768,9 @@
     tileGrid.innerHTML = CATEGORY_ORDER.map(cat => {
       const meta = CATEGORY_META[cat];
       const count = openCountFor(cat);
+      const wide = WIDE_TILES.includes(cat) ? " wide" : "";
       return `
-        <div class="tile cat-${cat}" data-cat="${cat}" role="button" tabindex="0" aria-label="Add ${meta.label} item">
+        <div class="tile cat-${cat}${wide}" data-cat="${cat}" role="button" tabindex="0" aria-label="Add ${meta.label} item">
           ${count ? `<span class="tile-badge">${count}</span>` : ""}
           <span class="tile-icon">${meta.icon}</span>
           <span class="tile-label">${meta.label}</span>
