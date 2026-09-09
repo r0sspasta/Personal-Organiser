@@ -8,14 +8,27 @@ Type or speak an item, and it's on your list in seconds. The **dashboard**
 shows everything by when it was added, plus smarter views for what's actually
 due.
 
+## Landing screen
+
+Opening the app shows exactly one thing: four big buttons — **💼 Work**,
+**👤 Personal**, **🏠 Home**, **🗂️ Other** — each with a live count of what's
+open in it. Tap one and you're straight into a focused add screen for that
+category: nothing else to look at, nothing else to decide.
+
+Everything else — the dashboard, filters, settings — lives one tap away
+(⌂ back, or the **📋 Dashboard** link), never in the way of adding something
+fast.
+
 ## Quick add
 
-- **Type it** in the bar at the bottom, or tap 🎤 and **say it** (uses your
+- Tap a category tile, then **type it** or tap 🎤 and **say it** (uses your
   browser's built-in speech recognition — Chrome/Edge on desktop and Android
   work well; Safari/iOS support is partial, so the mic button hides itself if
   your browser doesn't support it).
-- Pick **💼 Work** or **🏠 Personal** with the toggle above the input — it
-  remembers your last choice.
+- Hit **Add** (or Enter) and the item is saved immediately — the screen stays
+  open with a running "Just added" list so you can keep firing off items
+  under the same category without navigating back and forth. Tap **Done**
+  when you're finished.
 - The app parses natural language as you type, and shows you what it picked
   up before you hit add:
   - **Dates** — `today`, `tomorrow`, `tonight`, weekday names (`friday`,
@@ -38,7 +51,8 @@ due.
 - **Done** — completed items, most recently finished first.
 - A **stats strip** up top: added today, added this week, completed this
   week, and how many are overdue.
-- Filter chips (**All / Work / Personal**) narrow any of the views above.
+- Filter chips (**All / Work / Personal / Home / Other**) narrow any of the
+  views above.
 - Items untouched for 5+ days (configurable) get a **"Stuck"** flag, so
   things don't quietly rot in the list.
 
